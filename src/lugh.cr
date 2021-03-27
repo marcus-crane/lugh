@@ -1,3 +1,5 @@
+require "./file"
+
 require "option_parser"
 
 module Lugh
@@ -16,8 +18,14 @@ module Lugh
       exit
     end
 
-    parser.on "-f", "--file", "Parse file" do |filename|
-      puts filename
+    parser.on "-f FILENAME", "--file=FILENAME", "Parse file" do |filename|
+      if filename == ""
+        puts "no filename provided"
+        exit
+      end
+      file = File::Renderer.new
+      file.load(filename)
+      file.render
       exit
     end
 
