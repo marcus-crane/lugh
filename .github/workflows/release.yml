@@ -18,7 +18,7 @@ jobs:
           crystal: 1.0.0
       - run: shards install
       - run: crystal spec
-      - run: crystal build src/lugh.cr --release
+      - run: shards build --release
       - name: Compress binary
         uses: master-atul/tar-action@v1.0.2
         with:

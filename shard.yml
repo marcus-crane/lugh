@@ -1,12 +1,17 @@
 name: lugh
-version: 0.1.0
+version: 0.0.2
 
 authors:
   - Marcus Crane <marcus@utf9k.net>
 
+description: |
+  An extremely simple literate programming tool
+
 targets:
   lugh:
     main: src/lugh.cr
+
+repository: "https://github.com/marcus-crane/utf9k"
 
 crystal: 1.0.0
 
