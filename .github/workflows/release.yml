@@ -1,4 +1,4 @@
-name: Create Release Binaries
+name: Create release binaries for lugh
 
 on:
   release:
@@ -10,10 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        include:
-          - {os: ubuntu-latest}
-          - {os: macos-latest}
-          - {os: windows-latest}
+        os: [macos-latest, ubuntu-latest]
     steps:
       - uses: actions/checkout@v2
       - uses: oprypin/install-crystal@v1
