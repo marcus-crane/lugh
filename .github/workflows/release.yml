@@ -28,4 +28,4 @@ jobs:
         command: c
         cwd: .
         files: *
-        outPath: lugh-${{ matrix.include.os }}-{{ github.event.release.tag_name }}.tar.gz
+        outPath: lugh-${{ matrix.include.os }}-{{ github.event.release.tag_name }}-{{ github.event.release.tag_version }}.tar.gz
