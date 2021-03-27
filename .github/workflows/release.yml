@@ -14,22 +14,22 @@ jobs:
           - {os: ubuntu-latest}
           - {os: macos-latest}
           - {os: windows-latest}
-  steps:
-    - uses: actions/checkout@v2
-    - uses: oprypin/install-crystal@v1
-      with:
-        crystal: 1.0.0
-    - run: shards install
-    - run: crystal spec
-    - run: crystal build --release'
-    - name: Dump GitHub context
-      env:
-        GITHUB_CONTEXT: ${{ toJSON(github) }}
-      run: echo "$GITHUB_CONTEXT"
-    - name: Compress binary
-      uses: master-atul/tar-action@v1.0.2
-      with:
-        command: c
-        cwd: .
-        files: .
-        outPath: lugh-${{ matrix.include.os }}-{{ github.event.release.tag_name }}-{{ github.event.release.tag_version }}.tar.gz
+    steps:
+      - uses: actions/checkout@v2
+      - uses: oprypin/install-crystal@v1
+        with:
+          crystal: 1.0.0
+      - run: shards install
+      - run: crystal spec
+      - run: crystal build --release'
+      - name: Dump GitHub context
+        env:
+          GITHUB_CONTEXT: ${{ toJSON(github) }}
+        run: echo "$GITHUB_CONTEXT"
+      - name: Compress binary
+        uses: master-atul/tar-action@v1.0.2
+        with:
+          command: c
+          cwd: .
+          files: .
+          outPath: lugh-${{ matrix.include.os }}-{{ github.event.release.tag_name }}-{{ github.event.release.tag_version }}.tar.gz
