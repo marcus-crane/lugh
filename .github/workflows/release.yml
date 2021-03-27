@@ -23,9 +23,9 @@ jobs:
     - run: crystal spec
     - run: crystal build --release'
     - name: Dump GitHub context
-        env:
-          GITHUB_CONTEXT: ${{ toJSON(github) }}
-        run: echo "$GITHUB_CONTEXT"
+      env:
+        GITHUB_CONTEXT: ${{ toJSON(github) }}
+      run: echo "$GITHUB_CONTEXT"
     - name: Compress binary
       uses: master-atul/tar-action@v1.0.2
       with:
