@@ -25,12 +25,13 @@ jobs:
           command: c
           cwd: .
           files: lugh
-          outPath: lugh-${{ matrix.include.os }}-${{ github.event.release.tag_version }}.tar.gz
+          outPath: lugh-${{ matrix.include.os }}-${{ github.event.release.tag_name }}.tar.gz
       - uses: octokit/request-action@v2.x
         id: get_latest_release
         with:
           route: GET /repos/:repository/releases/latest
-          repository: ${{ github.repository }}
+          owner: marcus-crane
+          repo: lugh
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: get upload url
@@ -46,6 +47,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url:  ${{steps.get_upload_url.outputs.url}}
-          asset_path: ./lugh-${{ matrix.os }}-${{ github.event.release.tag_version }}.tar.gz
-          asset_name: lugh-${{ matrix.os }}-${{ github.event.release.tag_version }}.tar.gz
+          asset_path: ./lugh-${{ matrix.os }}-${{ github.event.release.tag_name }}.tar.gz
+          asset_name: lugh-${{ matrix.os }}-${{ github.event.release.tag_name }}.tar.gz
           asset_content_type: application/gzip
