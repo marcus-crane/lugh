@@ -1,0 +1,31 @@
+name: Create Release Binaries
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  release-matrix:
+    name: release lugh binaries
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        include:
+          - {os: ubuntu-latest}
+          - {os: macos-latest}
+          - {os: windows-latest}
+  steps:
+    - uses: actions/checkout@v2
+    - uses: oprypin/install-crystal@v1
+      with:
+        crystal: 1.0.0
+    - run: shards install
+    - run: crystal spec
+    - run: crystal build --release
+    - name: Compress binary
+      uses: master-atul/tar-action@v1.0.2
+      with:
+        command: c
+        cwd: .
+        files: *
+        outPath: lugh-${{ matrix.include.os }}-{{ github.event.release.tag_name }}.tar.gz
