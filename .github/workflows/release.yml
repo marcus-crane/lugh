@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        os: [macos-latest, ubuntu-latest]
+        os: [macos-latest, windows-latest, ubuntu-latest]
     steps:
       - uses: actions/checkout@v2
       - uses: oprypin/install-crystal@v1
@@ -18,7 +18,7 @@ jobs:
           crystal: 1.0.0
       - run: shards install
       - run: crystal spec
-      - run: crystal build --release
+      - run: crystal build src/lugh.cr --release
       - name: Dump GitHub context
         env:
           GITHUB_CONTEXT: ${{ toJSON(github) }}
