@@ -3,13 +3,13 @@ require "./file"
 require "option_parser"
 
 module Lugh
-  VERSION = "0.1.0"
+  VERSION = "0.0.1"
 
   OptionParser.parse do |parser|
     parser.banner = "Lugh is a tool for literate programming\n\nUsage: lugh [subcommand] [arguments]\n"
 
     parser.on "-v", "--version", "Show version" do
-      puts "version 0.1"
+      puts "Running version #{VERSION}"
       exit
     end
 
