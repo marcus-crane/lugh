@@ -24,7 +24,7 @@ jobs:
         with:
           command: c
           cwd: .
-          files: lugh
+          files: bin/lugh
           outPath: lugh-${{ matrix.os }}-${{ github.event.release.tag_name }}.tar.gz
       - uses: octokit/request-action@v2.x
         id: get_latest_release
