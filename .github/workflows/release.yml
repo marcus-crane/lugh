@@ -19,18 +19,33 @@ jobs:
       - run: shards install
       - run: crystal spec
       - run: crystal build src/lugh.cr --release
-      - name: Dump GitHub context
-        env:
-          GITHUB_CONTEXT: ${{ toJSON(github) }}
-        run: echo "$GITHUB_CONTEXT"
       - name: Compress binary
         uses: master-atul/tar-action@v1.0.2
         with:
           command: c
           cwd: .
           files: lugh
-          outPath: lugh-${{ matrix.include.os }}-{{ github.event.release.tag_name }}-{{ github.event.release.tag_version }}.tar.gz
-      - uses: actions/upload-artifact@v2
+          outPath: lugh-${{ matrix.include.os }}-${{ github.event.release.tag_version }}.tar.gz
+      - uses: octokit/request-action@v2.x
+        id: get_latest_release
         with:
-          name: lugh-${{ matrix.include.os }}-{{ github.event.release.tag_name }}-{{ github.event.release.tag_version }}.tar.gz
-          path: lugh-${{ matrix.include.os }}-{{ github.event.release.tag_name }}-{{ github.event.release.tag_version }}.tar.gz
+          route: GET /repos/:repository/releases/latest
+          repository: ${{ github.repository }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: get upload url
+        id: get_upload_url
+        run: |
+          url=$(echo "$response" | jq -r '.upload_url')
+          echo "::set-output name=url::$url"
+        env:
+          response:  ${{ steps.get_latest_release.outputs.data }}
+      - name: Upload a Release Asset
+        uses: actions/upload-release-asset@v1.0.2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url:  ${{steps.get_upload_url.outputs.url}}
+          asset_path: ./lugh-${{ matrix.os }}-${{ github.event.release.tag_version }}.tar.gz
+          asset_name: lugh-${{ matrix.os }}-${{ github.event.release.tag_version }}.tar.gz
+          asset_content_type: application/gzip
