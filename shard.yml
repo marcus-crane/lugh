@@ -1,0 +1,13 @@
+name: lugh
+version: 0.1.0
+
+authors:
+  - Marcus Crane <marcus@utf9k.net>
+
+targets:
+  lugh:
+    main: src/lugh.cr
+
+crystal: 1.0.0
+
+license: MIT
