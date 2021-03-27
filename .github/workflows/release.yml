@@ -21,7 +21,7 @@ jobs:
           crystal: 1.0.0
       - run: shards install
       - run: crystal spec
-      - run: crystal build --release'
+      - run: crystal build --release
       - name: Dump GitHub context
         env:
           GITHUB_CONTEXT: ${{ toJSON(github) }}
