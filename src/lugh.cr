@@ -6,7 +6,7 @@ module Lugh
   VERSION = "0.0.1"
 
   OptionParser.parse do |parser|
-    parser.banner = "Lugh is a tool for literate programming\n\nUsage: lugh [subcommand] [arguments]\n"
+    parser.banner = "Lugh is a tool for literate programming\n\nUsage: lugh [flag] [argument]\n"
 
     parser.on "-v", "--version", "Show version" do
       puts "Running version #{VERSION}"
