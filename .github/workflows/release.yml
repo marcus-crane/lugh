@@ -28,5 +28,9 @@ jobs:
         with:
           command: c
           cwd: .
-          files: .
+          files: lugh
           outPath: lugh-${{ matrix.include.os }}-{{ github.event.release.tag_name }}-{{ github.event.release.tag_version }}.tar.gz
+      - uses: actions/upload-artifact@v2
+      with:
+        name: lugh-${{ matrix.include.os }}-{{ github.event.release.tag_name }}-{{ github.event.release.tag_version }}.tar.gz
+        path: lugh-${{ matrix.include.os }}-{{ github.event.release.tag_name }}-{{ github.event.release.tag_version }}.tar.gz
