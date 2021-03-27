@@ -18,6 +18,8 @@ There's two options:
 
 2) Install Crystal, run `crystal build src/lugh.cr` and move the resulting binary somewhere in your `PATH`
 
+**NOTE**: If you're on macOS, the resulting binaries aren't signed so you'll need to head to `System Preferences -> Security` and mark it as allowed before it'll run.
+
 ## Usage
 
 A list of commands can be found by running `lugh -h`
