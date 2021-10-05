@@ -3,7 +3,7 @@ require "./file"
 require "option_parser"
 
 module Lugh
-  VERSION = "0.0.2"
+  VERSION = "0.0.3"
 
   OptionParser.parse do |parser|
     parser.banner = "Lugh is a tool for literate programming\n\nUsage: lugh [flag] [argument]\n"
