@@ -19,14 +19,24 @@ jobs:
       - run: shards install
       - run: crystal spec
       - run: shards build --release
+      - name: Get OS distribution codename
+        id: get_os_codename
+        run: |
+          codename="${{ matrix.os }}"
+          if [[ "${codename}" != "macos" ]]; then
+            echo ::set-output name="${codename}"
+          else
+            echo ::set-output name="darwin"
+          fi
       - name: Compress binary
         uses: master-atul/tar-action@v1.0.2
         with:
           command: c
           cwd: .
           files: bin/lugh
-          outPath: lugh-${{ matrix.os }}-${{ github.event.release.tag_name }}.tar.gz
+          outPath: lugh-${{ steps.get_os_codename.outputs.name }}-${{ github.event.release.tag_name }}.tar.gz
       - uses: octokit/request-action@v2.x
+        name: Get latest release from API
         id: get_latest_release
         with:
           route: GET /repos/{owner}/{repo}/releases/latest
@@ -34,7 +44,7 @@ jobs:
           repo: lugh
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - name: get upload url
+      - name: Get release URL
         id: get_upload_url
         run: |
           url=$(echo "$response" | jq -r '.upload_url')
@@ -46,7 +56,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          upload_url:  ${{steps.get_upload_url.outputs.url}}
-          asset_path: ./lugh-${{ matrix.os }}-${{ github.event.release.tag_name }}.tar.gz
-          asset_name: lugh-${{ matrix.os }}-${{ github.event.release.tag_name }}.tar.gz
+          upload_url:  ${{ steps.get_upload_url.outputs.url }}
+          asset_path: ./lugh-${{ steps.get_os_codename.outputs.name }}-${{ github.event.release.tag_name }}.tar.gz
+          asset_name: lugh-${{ steps.get_os_codename.outputs.name }}-${{ github.event.release.tag_name }}.tar.gz
           asset_content_type: application/gzip
