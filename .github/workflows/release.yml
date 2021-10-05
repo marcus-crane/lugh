@@ -19,13 +19,18 @@ jobs:
       - run: shards install
       - run: crystal spec
       - run: shards build --release
+      - name: Get platform name
+        id: get_platform_name
+        run: |
+          platform=$(uname | tr '[:upper:]' '[:lower:]')
+          echo "::set-output name=platform::$platform"
       - name: Compress binary
         uses: master-atul/tar-action@v1.0.2
         with:
           command: c
           cwd: .
           files: bin/lugh
-          outPath: lugh-$(uname | tr '[:upper:]' '[:lower:]')-${{ github.event.release.tag_name }}.tar.gz
+          outPath: lugh-${{ steps.get_platform_name.outputs.platform }}-${{ github.event.release.tag_name }}.tar.gz
       - uses: octokit/request-action@v2.x
         name: Get latest release from API
         id: get_latest_release
@@ -48,6 +53,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url:  ${{ steps.get_upload_url.outputs.url }}
-          asset_path: ./lugh-$(uname | tr '[:upper:]' '[:lower:]')-${{ github.event.release.tag_name }}.tar.gz
-          asset_name: lugh-$(uname | tr '[:upper:]' '[:lower:]')-${{ github.event.release.tag_name }}.tar.gz
+          asset_path: ./lugh-${{ steps.get_platform_name.outputs.platform }}-${{ github.event.release.tag_name }}.tar.gz
+          asset_name: lugh-${{ steps.get_platform_name.outputs.platform }}-${{ github.event.release.tag_name }}.tar.gz
           asset_content_type: application/gzip
