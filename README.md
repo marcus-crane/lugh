@@ -1,5 +1,8 @@
 # lugh
 
+> [!INFO]
+> While I haven't updated this tool in years and probably never will, it is still actively part of my [dotfiles](https://github.com/marcus-crane/dotfiles) setup to this day. I haven't really needed any extra features, just enough to power [dotfiles.utf9k.net](https://dotfiles.utf9k.net) so it could arguably considered "done" in a sense.
+
 `lugh` is a small CLI tool for rendering Markdown files to their resulting source files ie `zshrc.md` -> `.zshrc`
 
 Loosely inspired by some Markdown tools like [lmt](https://github.com/driusan/lmt) and of course [orgmode](https://orgmode.org).
